@@ -22,46 +22,58 @@
             loading="eager"
             decoding="async"
           />
+          <p class="hero-image-caption text-body2 q-mt-md q-mb-none">
+            {{ SITE.heroImageCaption }}
+          </p>
         </div>
       </div>
+    </section>
 
-      <div class="video-outer full-width row justify-center hero-stagger-video">
-        <div class="video-demo-wrap">
-          <div class="video-frame-glow" aria-hidden="true" />
-          <q-card flat bordered class="video-card overflow-hidden">
-            <div v-if="embedUrl" class="video-ratio">
-              <iframe
-                :src="embedUrl"
-                title="Product demo"
-                class="video-iframe"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen
-              />
-            </div>
-            <div v-else class="video-ratio">
-              <div class="video-placeholder column flex-center">
-                <div class="placeholder-inner column flex-center q-pa-md text-center">
-                  <q-btn
-                    round
-                    size="xl"
-                    color="primary"
-                    text-color="white"
-                    icon="play_arrow"
-                    class="play-btn-animated"
-                    @click="openVideoHint"
-                  />
-                  <div class="text-subtitle1 text-weight-medium pp-high q-mt-md">
-                    Demo video
-                  </div>
-                  <div class="text-caption pp-muted q-mt-xs pp-hint">
-                    Add your embed URL in
-                    <code class="pp-code">src/constants/site.js</code>
-                    →
-                    <code class="pp-code">projectDemoVideoEmbedUrl</code>
-                  </div>
-                </div>
+    <section ref="keyToolsEl" class="gallery-block q-pt-xl q-mt-lg column items-center">
+      <div
+        class="gallery-heading text-center q-mb-lg reveal-on-scroll full-width"
+        :class="{ 'is-visible': keyToolsVisible }"
+      >
+        <div class="text-overline pp-overline q-mb-xs">Toolkit</div>
+        <h2 class="text-h5 text-weight-bold pp-heading q-mb-xs">
+          Key tools that boost research
+        </h2>
+        <p class="text-caption pp-muted q-mb-none" style="max-width: 520px; margin: 0 auto">
+          Focused capabilities that keep context, speed synthesis, and make findings reusable.
+        </p>
+      </div>
+
+      <div class="row q-col-gutter-lg justify-center full-width" style="max-width: 1000px">
+        <div
+          v-for="(item, i) in keyTools"
+          :key="item.title"
+          class="col-12 col-sm-6"
+        >
+          <q-card
+            flat
+            bordered
+            class="photo-card overflow-hidden reveal-on-scroll"
+            :class="{ 'is-visible': keyToolsVisible }"
+            :style="{ transitionDelay: keyToolsDelay(i) }"
+          >
+            <div class="photo-shine" aria-hidden="true" />
+            <q-img
+              :src="item.src"
+              :ratio="4 / 3"
+              class="photo-img"
+              spinner-color="primary"
+              loading="lazy"
+            >
+              <div class="absolute-bottom photo-gradient" />
+            </q-img>
+            <q-card-section class="q-pt-md">
+              <div class="text-subtitle1 text-weight-medium pp-title">
+                {{ item.title }}
               </div>
-            </div>
+              <p class="text-caption pp-muted q-mb-none q-mt-xs">
+                {{ item.caption }}
+              </p>
+            </q-card-section>
           </q-card>
         </div>
       </div>
@@ -167,34 +179,25 @@
           {{ fn.description }}
         </p>
       </div>
-
-      <div
-        class="progress-compare-wrap q-mt-xl full-width column items-center reveal-on-scroll"
-        :class="{ 'is-visible': featuresVisible }"
-        :style="{ transitionDelay: '520ms' }"
-      >
-        <ProgressTimelineCompare />
-      </div>
     </section>
   </q-page>
 </template>
 
 <script setup>
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { useQuasar } from 'quasar'
 import heroWorkshopUrl from 'src/assets/hero-workshop.png'
-import ProgressTimelineCompare from 'src/components/investor/ProgressTimelineCompare.vue'
 import { SITE } from 'src/constants/site'
 
 const $q = useQuasar()
 
 const heroEntered = ref(false)
+const keyToolsVisible = ref(false)
 const galleryVisible = ref(false)
 const featuresVisible = ref(false)
+const keyToolsEl = ref(null)
 const galleryEl = ref(null)
 const featuresEl = ref(null)
-
-const embedUrl = computed(() => SITE.projectDemoVideoEmbedUrl?.trim() || '')
 
 /** Two product functions: set title, description, and optional embed URL per clip. */
 const appFunctions = [
@@ -209,6 +212,29 @@ const appFunctions = [
     description:
       'Every recommendation keeps its sources attached — easy to audit, easy to trust when stakes are high.',
     embedUrl: ''
+  }
+]
+
+const keyTools = [
+  {
+    title: 'Structured capture',
+    caption: 'Drop notes, PDFs, and links into one frame so nothing drifts across tabs.',
+    src: 'https://picsum.photos/seed/fst-tool-a/960/720'
+  },
+  {
+    title: 'Synthesis views',
+    caption: 'Roll scattered threads into a single narrative you can defend in review.',
+    src: 'https://picsum.photos/seed/fst-tool-b/960/720'
+  },
+  {
+    title: 'Traceable claims',
+    caption: 'Every takeaway keeps its breadcrumbs — faster peer review, fewer rework loops.',
+    src: 'https://picsum.photos/seed/fst-tool-c/960/720'
+  },
+  {
+    title: 'Export-ready outputs',
+    caption: 'Push polished summaries to slides or docs without rebuilding the story by hand.',
+    src: 'https://picsum.photos/seed/fst-tool-d/960/720'
   }
 ]
 
@@ -235,8 +261,13 @@ const gallery = [
   }
 ]
 
+let keyToolsObserver
 let galleryObserver
 let featuresObserver
+
+function keyToolsDelay (index) {
+  return `${120 + index * 100}ms`
+}
 
 function galleryDelay (index) {
   return `${120 + index * 100}ms`
@@ -254,18 +285,24 @@ function openFeatureVideoHint () {
   })
 }
 
-function openVideoHint () {
-  $q.notify({
-    type: 'info',
-    message: 'Set projectDemoVideoEmbedUrl in site.js to show your embedded demo.',
-    position: 'top'
-  })
-}
-
 onMounted(() => {
   requestAnimationFrame(() => {
     heroEntered.value = true
   })
+
+  keyToolsObserver = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          keyToolsVisible.value = true
+        }
+      }
+    },
+    { threshold: 0.1, rootMargin: '0px 0px -32px 0px' }
+  )
+  if (keyToolsEl.value) {
+    keyToolsObserver.observe(keyToolsEl.value)
+  }
 
   galleryObserver = new IntersectionObserver(
     (entries) => {
@@ -297,6 +334,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
+  keyToolsObserver?.disconnect()
   galleryObserver?.disconnect()
   featuresObserver?.disconnect()
 })
@@ -417,8 +455,7 @@ onUnmounted(() => {
 }
 
 .hero-stack .tagline,
-.hero-stack .hero-stagger-btn,
-.hero-stack .hero-stagger-video {
+.hero-stack .hero-stagger-btn {
   opacity: 0;
   transform: translateY(22px);
   transition:
@@ -443,8 +480,10 @@ onUnmounted(() => {
 
 .hero-workshop-img {
   display: block;
-  width: 100%;
+  width: 50%;
   height: auto;
+  margin-left: auto;
+  margin-right: auto;
   border-radius: 14px;
   border: 1px solid rgba(11, 195, 171, 0.28);
   box-shadow:
@@ -452,16 +491,17 @@ onUnmounted(() => {
     0 16px 48px rgba(10, 24, 28, 0.55);
 }
 
+.hero-image-caption {
+  color: var(--pp-muted);
+  line-height: 1.5;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
 .hero-stack--ready .hero-stagger-btn {
   opacity: 1;
   transform: translateY(0);
   transition-delay: 0.24s;
-}
-
-.hero-stack--ready .hero-stagger-video {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 0.38s;
 }
 
 /* Center video block horizontally; clip glow overflow */
@@ -649,11 +689,6 @@ onUnmounted(() => {
   margin-right: auto;
 }
 
-.progress-compare-wrap {
-  width: 100%;
-  max-width: 1000px;
-}
-
 .feature-showcase + .feature-showcase {
   margin-top: 3.25rem;
   padding-top: 3rem;
@@ -690,7 +725,6 @@ onUnmounted(() => {
   .mega-title,
   .hero-stack .tagline,
   .hero-stack .hero-stagger-btn,
-  .hero-stack .hero-stagger-video,
   .reveal-on-scroll {
     transition-duration: 0.01ms !important;
     animation: none !important;
