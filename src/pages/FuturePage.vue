@@ -29,7 +29,7 @@
                 :key="tag"
                 dense
                 outline
-                color="deep-purple-3"
+                color="cyan-4"
                 text-color="grey-3"
                 class="q-mr-xs q-mb-xs"
               >
@@ -68,7 +68,7 @@ const roadmap = [
     window: 'Mid term',
     detail: 'First-party connectors plus webhook platform for ecosystem pull-through.',
     icon: 'extension',
-    color: 'purple',
+    color: 'secondary',
     tags: ['Platform', 'Partners']
   },
   {
@@ -76,7 +76,7 @@ const roadmap = [
     window: 'Longer arc',
     detail: 'Signals that compound with usage — the reason customers stay and expand.',
     icon: 'psychology',
-    color: 'deep-purple',
+    color: 'accent',
     tags: ['Moat', 'Data']
   }
 ]
@@ -103,8 +103,8 @@ const roadmap = [
 .timeline-card {
   width: 100%;
   border-radius: 20px;
-  background: rgba(15, 23, 42, 0.55);
-  border-color: rgba(167, 139, 250, 0.22);
+  background: rgba(26, 44, 51, 0.55);
+  border-color: rgba(11, 195, 171, 0.22);
 }
 
 .roadmap-timeline :deep(.q-timeline__title) {
@@ -129,11 +129,11 @@ const roadmap = [
 
 .cta-strip {
   border-radius: 16px;
-  border: 1px solid rgba(167, 139, 250, 0.25);
+  border: 1px solid rgba(11, 195, 171, 0.25);
   background: linear-gradient(
     120deg,
-    rgba(76, 29, 149, 0.35) 0%,
-    rgba(15, 23, 42, 0.85) 100%
+    rgba(3, 117, 204, 0.28) 0%,
+    rgba(19, 48, 49, 0.88) 100%
   );
 }
 </style>

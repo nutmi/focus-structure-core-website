@@ -22,7 +22,7 @@
       </div>
     </section>
 
-    <q-separator dark color="deep-purple-3" class="q-mb-xl opacity-30" />
+    <q-separator dark color="cyan-4" class="q-mb-xl opacity-30" />
 
     <section class="q-mb-xl">
       <div class="text-overline text-primary q-mb-sm">Investment</div>
@@ -53,7 +53,7 @@
               rounded
               size="10px"
               color="primary"
-              track-color="deep-purple-9"
+              track-color="blue-grey-10"
               class="q-mb-xs"
             />
             <div class="text-caption text-grey-5">Example: 62% product and engineering</div>
@@ -131,31 +131,31 @@ const snapshot = [
 <style scoped>
 .team-card {
   border-radius: 16px;
-  background: rgba(15, 23, 42, 0.55);
-  border-color: rgba(167, 139, 250, 0.22);
+  background: rgba(26, 44, 51, 0.55);
+  border-color: rgba(11, 195, 171, 0.22);
 }
 .team-avatar {
-  background: linear-gradient(135deg, #7c3aed, #c4b5fd);
-  color: #1e1b4b;
+  background: linear-gradient(135deg, #0375cc, #0bc3ab);
+  color: #133031;
 }
 .glass-panel {
   border-radius: 16px;
-  background: rgba(15, 23, 42, 0.55);
-  border-color: rgba(167, 139, 250, 0.22);
+  background: rgba(26, 44, 51, 0.55);
+  border-color: rgba(11, 195, 171, 0.22);
   min-height: 100%;
 }
 .metric-card {
   border-radius: 14px;
-  background: rgba(30, 27, 75, 0.45);
-  border-color: rgba(167, 139, 250, 0.2);
+  background: rgba(19, 48, 49, 0.45);
+  border-color: rgba(3, 117, 204, 0.2);
 }
 .cta-strip {
   border-radius: 16px;
-  border: 1px solid rgba(167, 139, 250, 0.25);
+  border: 1px solid rgba(11, 195, 171, 0.25);
   background: linear-gradient(
     120deg,
-    rgba(76, 29, 149, 0.35) 0%,
-    rgba(15, 23, 42, 0.85) 100%
+    rgba(3, 117, 204, 0.28) 0%,
+    rgba(19, 48, 49, 0.88) 100%
   );
 }
 </style>

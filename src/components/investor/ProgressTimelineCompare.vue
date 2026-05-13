@@ -269,25 +269,25 @@ onUnmounted(() => {
   margin-left: auto;
   margin-right: auto;
   border-radius: 20px;
-  border: 1px solid rgba(196, 181, 253, 0.28);
+  border: 1px solid rgba(11, 195, 171, 0.25);
   background: linear-gradient(
     165deg,
-    rgba(30, 27, 75, 0.55) 0%,
-    rgba(15, 23, 42, 0.75) 100%
+    rgba(26, 44, 51, 0.65) 0%,
+    rgba(19, 48, 49, 0.78) 100%
   );
 }
 
 .ptc-overline {
-  color: #a78bfa;
+  color: #2dd4bf;
   letter-spacing: 0.14em;
 }
 
 .ptc-title {
-  color: #f5f3ff;
+  color: #f0fdfa;
 }
 
 .ptc-lead {
-  color: #c4b5fd;
+  color: #5eead4;
   max-width: 36rem;
   margin-left: auto;
   margin-right: auto;
@@ -311,23 +311,23 @@ onUnmounted(() => {
 }
 
 .ptc-plot-bg {
-  fill: rgba(15, 23, 42, 0.45);
-  stroke: rgba(167, 139, 250, 0.15);
+  fill: rgba(19, 48, 49, 0.45);
+  stroke: rgba(11, 195, 171, 0.18);
   stroke-width: 1;
 }
 
 .ptc-grid line {
-  stroke: rgba(196, 181, 253, 0.12);
+  stroke: rgba(11, 195, 171, 0.12);
   stroke-width: 1;
 }
 
 .ptc-axis {
-  stroke: rgba(237, 233, 254, 0.35);
+  stroke: rgba(204, 251, 241, 0.35);
   stroke-width: 2;
 }
 
 .ptc-axis-label {
-  fill: #a78bfa;
+  fill: #5eead4;
   font-size: 14px;
   font-weight: 600;
 }
@@ -361,7 +361,7 @@ onUnmounted(() => {
   stroke: #faf5ff;
   stroke-width: 3;
   stroke-opacity: 0.95;
-  filter: drop-shadow(0 0 6px rgba(124, 58, 237, 0.8));
+  filter: drop-shadow(0 0 6px rgba(11, 195, 171, 0.75));
 }
 
 .ptc-hit {
@@ -370,20 +370,20 @@ onUnmounted(() => {
 }
 
 .ptc-knob-bg {
-  fill: rgba(49, 46, 129, 0.92);
-  stroke: rgba(196, 181, 253, 0.55);
+  fill: rgba(3, 117, 204, 0.88);
+  stroke: rgba(11, 195, 171, 0.55);
   stroke-width: 1;
 }
 
 .ptc-knob-label {
-  fill: #ede9fe;
+  fill: #ecfeff;
   font-size: 13px;
   font-weight: 700;
   pointer-events: none;
 }
 
 .ptc-caption {
-  border: 1px solid rgba(196, 181, 253, 0.2);
+  border: 1px solid rgba(11, 195, 171, 0.18);
 }
 
 .ptc-caption--before {

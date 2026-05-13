@@ -30,28 +30,28 @@ const contact = useContactUiStore()
 </script>
 
 <style scoped>
-/* On deep violet UIs, pure Quasar contrast can read too dark — tune explicitly. */
+/* Solid CTA tuned for slate + teal palette */
 .contact-inline-btn {
   border-radius: 12px;
   font-weight: 600;
 }
 
 .contact-inline-btn--solid {
-  background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 42%, #6d28d9 100%) !important;
-  color: #faf5ff !important;
+  background: linear-gradient(135deg, #0bc3ab 0%, #0375cc 48%, #0660a8 100%) !important;
+  color: #ecfeff !important;
   border: 1px solid rgba(255, 255, 255, 0.22);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.2),
-    0 4px 16px rgba(91, 33, 182, 0.45);
-  text-shadow: 0 1px 2px rgba(49, 46, 129, 0.45);
+    0 4px 16px rgba(3, 117, 204, 0.4);
+  text-shadow: 0 1px 2px rgba(19, 48, 49, 0.45);
 }
 
 .contact-inline-btn--solid :deep(.q-btn__wrapper) {
-  color: #faf5ff !important;
+  color: #ecfeff !important;
 }
 
 .contact-inline-btn--solid :deep(.q-icon) {
-  color: #ede9fe !important;
+  color: #cffafe !important;
   opacity: 0.95;
 }
 
@@ -60,21 +60,21 @@ const contact = useContactUiStore()
 }
 
 .contact-inline-btn.q-btn--outline {
-  color: #ede9fe !important;
-  border-color: rgba(196, 181, 253, 0.55) !important;
-  background: rgba(124, 58, 237, 0.12) !important;
+  color: #cffafe !important;
+  border-color: rgba(11, 195, 171, 0.55) !important;
+  background: rgba(3, 117, 204, 0.14) !important;
 }
 
 .contact-inline-btn.q-btn--outline :deep(.q-btn__wrapper),
 .contact-inline-btn.q-btn--outline :deep(.q-icon) {
-  color: #ede9fe !important;
+  color: #cffafe !important;
 }
 
 .contact-inline-btn.q-btn--flat {
-  color: #ddd6fe !important;
+  color: #a5f3fc !important;
 }
 
 .contact-inline-btn.q-btn--flat :deep(.q-icon) {
-  color: #c4b5fd !important;
+  color: #5eead4 !important;
 }
 </style>

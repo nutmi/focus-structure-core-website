@@ -41,11 +41,16 @@ const { dialogOpen } = storeToRefs(contact)
 <style scoped>
 .investor-layout {
   background: radial-gradient(
-      120% 60% at 50% -10%,
-      rgba(124, 58, 237, 0.35) 0%,
-      transparent 55%
+      120% 55% at 50% -8%,
+      rgba(11, 195, 171, 0.18) 0%,
+      transparent 50%
     ),
-    linear-gradient(180deg, #0f172a 0%, #0b1020 40%, #070a12 100%);
+    radial-gradient(
+      90% 45% at 100% 20%,
+      rgba(3, 117, 204, 0.14) 0%,
+      transparent 45%
+    ),
+    linear-gradient(180deg, #1a2c33 0%, #15282d 38%, #133031 100%);
   min-height: 100vh;
 }
 .page-container {
@@ -54,7 +59,7 @@ const { dialogOpen } = storeToRefs(contact)
   width: 100%;
 }
 .fab-contact {
-  box-shadow: 0 12px 40px rgba(91, 33, 182, 0.55);
+  box-shadow: 0 12px 40px rgba(3, 117, 204, 0.45);
 }
 .fixed-fab {
   position: fixed;

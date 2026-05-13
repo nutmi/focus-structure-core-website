@@ -4,19 +4,25 @@
       class="hero-stack text-center q-pt-lg q-pb-md column items-center"
       :class="{ 'hero-stack--ready': heroEntered }"
     >
-      <h1 class="mega-title">
-        {{ SITE.projectName }}
-      </h1>
-      <p class="tagline pp-body text-body1 q-mt-sm q-mb-lg">
-        {{ SITE.tagline }}
-      </p>
+      <div class="hero-headline-column">
+        <h1 class="mega-title">
+          {{ SITE.heroHeadline }}
+        </h1>
+        <p class="tagline pp-body text-body1 q-mt-sm q-mb-lg">
+          {{ SITE.tagline }}
+        </p>
 
-      <div class="row justify-center full-width q-mb-xl hero-stagger-btn">
-        <ContactUsButton
-          size="lg"
-          class="contact-hero-btn shadow-glow"
-          label="Contact us"
-        />
+        <div class="hero-stagger-btn hero-workshop-slot">
+          <img
+            :src="heroWorkshopUrl"
+            alt="Scholar's study with desk, books, and chalkboard"
+            class="hero-workshop-img"
+            width="1024"
+            height="1024"
+            loading="eager"
+            decoding="async"
+          />
+        </div>
       </div>
 
       <div class="video-outer full-width row justify-center hero-stagger-video">
@@ -176,7 +182,7 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useQuasar } from 'quasar'
-import ContactUsButton from 'src/components/investor/ContactUsButton.vue'
+import heroWorkshopUrl from 'src/assets/hero-workshop.png'
 import ProgressTimelineCompare from 'src/components/investor/ProgressTimelineCompare.vue'
 import { SITE } from 'src/constants/site'
 
@@ -298,18 +304,17 @@ onUnmounted(() => {
 
 <style scoped>
 /*
- * Text on saturated violet / indigo backgrounds reads best with warm-tinted lavenders
- * (Tailwind violet-50 → violet-300), not cool neutral greys which look muddy on purple.
+ * Text on slate + teal surfaces: cool mint highlights (aligned with app icon palette).
  */
 .project-page {
-  --pp-high: #faf5ff;
-  --pp-body: #e9e5ff;
-  --pp-heading: #f5f3ff;
-  --pp-muted: #c4b5fd;
-  --pp-soft: #a78bfa;
-  --pp-code-fg: #ede9fe;
-  --pp-code-bg: rgba(91, 33, 182, 0.35);
-  --pp-code-border: rgba(196, 181, 253, 0.35);
+  --pp-high: #ecfeff;
+  --pp-body: #cffafe;
+  --pp-heading: #f0fdfa;
+  --pp-muted: #5eead4;
+  --pp-soft: #2dd4bf;
+  --pp-code-fg: #ecfeff;
+  --pp-code-bg: rgba(3, 117, 204, 0.28);
+  --pp-code-border: rgba(11, 195, 171, 0.35);
 
   max-width: 1040px;
   margin-left: auto;
@@ -355,12 +360,25 @@ onUnmounted(() => {
   margin-right: auto;
 }
 
+.hero-headline-column {
+  width: 100%;
+  max-width: 38rem;
+  padding: 0 0.75rem;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
 .mega-title {
-  font-size: clamp(2.75rem, 10vw, 5.5rem);
-  font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
+  font-size: clamp(1.2rem, 3.2vw, 1.85rem);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
   margin: 0;
+  max-width: none;
+  padding: 0;
   opacity: 0;
   transform: translateY(36px) scale(0.96);
   filter: blur(10px);
@@ -370,11 +388,11 @@ onUnmounted(() => {
     filter 0.85s cubic-bezier(0.22, 1, 0.36, 1);
   background: linear-gradient(
     115deg,
-    #faf5ff 0%,
-    #ede9fe 18%,
-    #ddd6fe 38%,
-    #c4b5fd 58%,
-    #f5f3ff 82%
+    #5eead4 0%,
+    #22d3ee 22%,
+    #38bdf8 48%,
+    #1fca79 78%,
+    #5eead4 100%
   );
   background-size: 200% auto;
   -webkit-background-clip: text;
@@ -414,6 +432,26 @@ onUnmounted(() => {
   transition-delay: 0.12s;
 }
 
+.hero-headline-column .tagline.pp-body {
+  max-width: none;
+  width: 100%;
+}
+
+.hero-workshop-slot {
+  margin-bottom: 2.5rem;
+}
+
+.hero-workshop-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+  border: 1px solid rgba(11, 195, 171, 0.28);
+  box-shadow:
+    0 0 0 1px rgba(3, 117, 204, 0.12),
+    0 16px 48px rgba(10, 24, 28, 0.55);
+}
+
 .hero-stack--ready .hero-stagger-btn {
   opacity: 1;
   transform: translateY(0);
@@ -424,28 +462,6 @@ onUnmounted(() => {
   opacity: 1;
   transform: translateY(0);
   transition-delay: 0.38s;
-}
-
-.contact-hero-btn {
-  border-radius: 14px;
-}
-
-.shadow-glow {
-  animation: btn-glow 2.8s ease-in-out infinite;
-}
-
-@keyframes btn-glow {
-  0%,
-  100% {
-    box-shadow:
-      0 0 0 0 rgba(167, 139, 250, 0.35),
-      0 12px 40px rgba(91, 33, 182, 0.45);
-  }
-  50% {
-    box-shadow:
-      0 0 0 12px rgba(167, 139, 250, 0),
-      0 18px 52px rgba(124, 58, 237, 0.55);
-  }
 }
 
 /* Center video block horizontally; clip glow overflow */
@@ -472,8 +488,8 @@ onUnmounted(() => {
   border-radius: 22px;
   background: radial-gradient(
     65% 100% at 50% 0%,
-    rgba(196, 181, 253, 0.55) 0%,
-    rgba(124, 58, 237, 0.15) 45%,
+    rgba(11, 195, 171, 0.45) 0%,
+    rgba(3, 117, 204, 0.18) 45%,
     transparent 70%
   );
   opacity: 0.9;
@@ -500,8 +516,8 @@ onUnmounted(() => {
   width: 100%;
   margin: 0 auto;
   border-radius: 18px;
-  border-color: rgba(196, 181, 253, 0.38);
-  background: rgba(15, 23, 42, 0.72);
+  border-color: rgba(11, 195, 171, 0.35);
+  background: rgba(19, 48, 49, 0.72);
 }
 
 .video-ratio {
@@ -534,10 +550,10 @@ onUnmounted(() => {
   text-align: center;
   background: radial-gradient(
       85% 65% at 50% 18%,
-      rgba(167, 139, 250, 0.35) 0%,
+      rgba(3, 117, 204, 0.28) 0%,
       transparent 52%
     ),
-    linear-gradient(168deg, rgba(49, 46, 129, 0.92) 0%, rgba(15, 23, 42, 0.98) 100%);
+    linear-gradient(168deg, rgba(26, 44, 51, 0.96) 0%, rgba(19, 48, 49, 0.98) 100%);
 }
 
 .placeholder-inner {
@@ -546,7 +562,7 @@ onUnmounted(() => {
 }
 
 .play-btn-animated {
-  box-shadow: 0 12px 40px rgba(91, 33, 182, 0.55);
+  box-shadow: 0 12px 40px rgba(3, 117, 204, 0.45);
   animation: play-pulse 2.2s ease-in-out infinite;
 }
 
@@ -583,15 +599,15 @@ onUnmounted(() => {
 .photo-card {
   position: relative;
   border-radius: 18px;
-  border-color: rgba(196, 181, 253, 0.28);
-  background: rgba(15, 23, 42, 0.55);
+  border-color: rgba(11, 195, 171, 0.22);
+  background: rgba(26, 44, 51, 0.55);
   transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
 }
 
 .photo-card.is-visible:hover {
   transform: translateY(-6px);
-  border-color: rgba(237, 233, 254, 0.35);
-  box-shadow: 0 20px 50px rgba(76, 29, 149, 0.4);
+  border-color: rgba(94, 234, 212, 0.4);
+  box-shadow: 0 20px 50px rgba(3, 117, 204, 0.28);
 }
 
 .photo-shine {
@@ -622,7 +638,7 @@ onUnmounted(() => {
 
 .photo-gradient {
   height: 40%;
-  background: linear-gradient(to top, rgba(15, 23, 42, 0.88), transparent);
+  background: linear-gradient(to top, rgba(19, 48, 49, 0.9), transparent);
 }
 
 .features-block {
@@ -641,7 +657,7 @@ onUnmounted(() => {
 .feature-showcase + .feature-showcase {
   margin-top: 3.25rem;
   padding-top: 3rem;
-  border-top: 1px solid rgba(196, 181, 253, 0.15);
+  border-top: 1px solid rgba(11, 195, 171, 0.15);
 }
 
 .feature-title {
@@ -680,7 +696,6 @@ onUnmounted(() => {
     animation: none !important;
   }
 
-  .shadow-glow,
   .video-frame-glow,
   .play-btn-animated {
     animation: none !important;

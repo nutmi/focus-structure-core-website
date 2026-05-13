@@ -112,28 +112,28 @@ function sendMail () {
 
 <style scoped>
 .contact-card {
-  --cd-high: #faf5ff;
-  --cd-body: #e9e5ff;
-  --cd-muted: #c4b5fd;
-  --cd-soft: #a78bfa;
-  --cd-field-bg: rgba(30, 27, 75, 0.55);
-  --cd-border: rgba(196, 181, 253, 0.38);
-  --cd-border-soft: rgba(167, 139, 250, 0.22);
+  --cd-high: #ecfeff;
+  --cd-body: #cffafe;
+  --cd-muted: #5eead4;
+  --cd-soft: #2dd4bf;
+  --cd-field-bg: rgba(19, 48, 49, 0.55);
+  --cd-border: rgba(11, 195, 171, 0.32);
+  --cd-border-soft: rgba(3, 117, 204, 0.22);
 
   width: min(100vw - 32px, 440px);
   border-radius: 18px;
   overflow: hidden;
   background: linear-gradient(
     165deg,
-    rgba(49, 46, 129, 0.97) 0%,
-    rgba(30, 27, 75, 0.98) 42%,
-    rgba(15, 23, 42, 0.99) 100%
+    rgba(26, 44, 51, 0.98) 0%,
+    rgba(19, 48, 49, 0.98) 42%,
+    rgba(15, 36, 42, 0.99) 100%
   );
   border: 1px solid var(--cd-border);
   box-shadow:
-    0 0 0 1px rgba(124, 58, 237, 0.12),
-    0 24px 56px rgba(15, 23, 42, 0.75),
-    0 0 80px rgba(91, 33, 182, 0.25);
+    0 0 0 1px rgba(3, 117, 204, 0.12),
+    0 24px 56px rgba(10, 20, 24, 0.75),
+    0 0 80px rgba(11, 195, 171, 0.12);
 }
 
 .cd-title {
@@ -153,17 +153,17 @@ function sendMail () {
 }
 
 .cd-close:hover :deep(.q-focus-helper) {
-  background: rgba(167, 139, 250, 0.15) !important;
+  background: rgba(11, 195, 171, 0.15) !important;
 }
 
 .cd-sep {
-  background: rgba(196, 181, 253, 0.18);
+  background: rgba(11, 195, 171, 0.2);
   opacity: 1;
 }
 
 .contact-actions {
-  border-top: 1px solid rgba(196, 181, 253, 0.12);
-  background: rgba(15, 23, 42, 0.35);
+  border-top: 1px solid rgba(11, 195, 171, 0.14);
+  background: rgba(19, 48, 49, 0.35);
 }
 
 /* ---- Form fields ---- */
@@ -176,11 +176,11 @@ function sendMail () {
 .cd-field :deep(.q-field__native),
 .cd-field :deep(.q-field__input) {
   color: var(--cd-high) !important;
-  caret-color: #c4b5fd;
+  caret-color: #5eead4;
 }
 
 .cd-field :deep(.q-field__native)::placeholder {
-  color: rgba(196, 181, 253, 0.55);
+  color: rgba(94, 234, 212, 0.5);
 }
 
 .cd-field :deep(.q-field__label) {
@@ -201,17 +201,17 @@ function sendMail () {
 }
 
 .cd-field :deep(.q-field--outlined:hover .q-field__control:before) {
-  border-color: rgba(196, 181, 253, 0.42) !important;
+  border-color: rgba(11, 195, 171, 0.4) !important;
 }
 
 .cd-field :deep(.q-field--outlined.q-field--focused .q-field__control:before) {
-  border-color: rgba(167, 139, 250, 0.75) !important;
-  box-shadow: 0 0 0 1px rgba(124, 58, 237, 0.25);
+  border-color: rgba(3, 117, 204, 0.55) !important;
+  box-shadow: 0 0 0 1px rgba(3, 117, 204, 0.22);
 }
 
 .cd-field :deep(.q-field--outlined.q-field--focused .q-field__control:after) {
   border-width: 2px !important;
-  border-color: #a78bfa !important;
+  border-color: #0bc3ab !important;
 }
 
 .cd-field :deep(textarea.q-field__native) {
@@ -225,27 +225,27 @@ function sendMail () {
 }
 
 .cd-btn-cancel:hover :deep(.q-focus-helper) {
-  background: rgba(167, 139, 250, 0.12) !important;
+  background: rgba(11, 195, 171, 0.12) !important;
 }
 
 .cd-btn-submit {
   padding: 8px 18px;
   font-weight: 600;
-  color: #faf5ff !important;
-  background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 45%, #6d28d9 100%) !important;
+  color: #ecfeff !important;
+  background: linear-gradient(135deg, #0bc3ab 0%, #0375cc 48%, #0660a8 100%) !important;
   border: 1px solid rgba(255, 255, 255, 0.22);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.18),
-    0 6px 20px rgba(91, 33, 182, 0.45);
-  text-shadow: 0 1px 2px rgba(49, 46, 129, 0.4);
+    0 6px 20px rgba(3, 117, 204, 0.4);
+  text-shadow: 0 1px 2px rgba(19, 48, 49, 0.4);
 }
 
 .cd-btn-submit :deep(.q-btn__wrapper) {
-  color: #faf5ff !important;
+  color: #ecfeff !important;
 }
 
 .cd-btn-submit :deep(.q-icon) {
-  color: #ede9fe !important;
+  color: #cffafe !important;
 }
 
 .cd-btn-submit:hover :deep(.q-focus-helper) {

@@ -26,17 +26,17 @@
 .not-found {
   background: radial-gradient(
       80% 60% at 50% 0%,
-      rgba(124, 58, 237, 0.45) 0%,
+      rgba(11, 195, 171, 0.28) 0%,
       transparent 55%
     ),
-    linear-gradient(180deg, #0f172a 0%, #070a12 100%);
+    linear-gradient(180deg, #1a2c33 0%, #133031 100%);
 }
 .code {
   font-size: clamp(4rem, 22vw, 12rem);
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.04em;
-  background: linear-gradient(135deg, #ede9fe 0%, #a78bfa 40%, #7c3aed 100%);
+  background: linear-gradient(135deg, #ccfbf1 0%, #22d3ee 40%, #0375cc 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

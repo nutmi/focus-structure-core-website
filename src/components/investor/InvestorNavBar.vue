@@ -4,7 +4,14 @@
 
     <q-toolbar class="toolbar-inner q-px-md q-py-sm">
       <router-link to="/project" class="brand-link row items-center no-wrap">
-        <span class="brand-mark" />
+        <img
+          class="brand-icon"
+          :src="brandIconUrl"
+          width="36"
+          height="36"
+          alt=""
+          decoding="async"
+        />
         <span class="brand-text text-weight-bold">{{ SITE.projectName }}</span>
       </router-link>
 
@@ -44,6 +51,7 @@
 
 <script setup>
 import { useRoute } from 'vue-router'
+import brandIconUrl from 'src/assets/app-icon.svg'
 import { SITE } from 'src/constants/site'
 import { useContactUiStore } from 'src/stores/contact-ui'
 
@@ -51,7 +59,6 @@ const route = useRoute()
 const contact = useContactUiStore()
 
 const nav = [
-  { to: '/project', label: 'Project', icon: 'auto_awesome' },
   { to: '/invest', label: 'Invest', icon: 'trending_up' },
   { to: '/future', label: 'Roadmap', icon: 'map' }
 ]
@@ -66,21 +73,22 @@ function isActive (path) {
   position: relative;
   background: linear-gradient(
     120deg,
-    rgba(76, 29, 149, 0.92) 0%,
-    rgba(49, 46, 129, 0.95) 45%,
-    rgba(30, 27, 75, 0.98) 100%
+    rgba(26, 44, 51, 0.98) 0%,
+    rgba(19, 48, 49, 0.97) 42%,
+    rgba(15, 36, 42, 0.98) 100%
   );
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(196, 181, 253, 0.25);
+  border-bottom: 1px solid rgba(11, 195, 171, 0.22);
 }
 .header-glow {
   position: absolute;
   inset: 0;
   pointer-events: none;
   background: radial-gradient(
-    120% 80% at 10% 0%,
-    rgba(167, 139, 250, 0.45) 0%,
-    transparent 55%
+    120% 80% at 12% 0%,
+    rgba(11, 195, 171, 0.22) 0%,
+    rgba(3, 117, 204, 0.12) 35%,
+    transparent 58%
   );
   animation: header-shimmer 8s ease-in-out infinite alternate;
 }
@@ -106,35 +114,25 @@ function isActive (path) {
   color: inherit;
   gap: 10px;
 }
-.brand-mark {
-  width: 10px;
+.brand-icon {
+  display: block;
+  flex-shrink: 0;
+  width: 36px;
   height: 36px;
-  border-radius: 6px;
-  background: linear-gradient(180deg, #c4b5fd 0%, #7c3aed 50%, #5b21b6 100%);
-  box-shadow: 0 0 24px rgba(167, 139, 250, 0.65);
-  animation: brand-pulse 2.8s ease-in-out infinite;
-}
-@keyframes brand-pulse {
-  0%,
-  100% {
-    transform: scaleY(1);
-    filter: brightness(1);
-  }
-  50% {
-    transform: scaleY(1.06);
-    filter: brightness(1.15);
-  }
+  border-radius: 10px;
+  object-fit: contain;
+  box-shadow: 0 0 18px rgba(11, 195, 171, 0.35);
 }
 .brand-text {
   font-size: 1.35rem;
   letter-spacing: 0.04em;
-  background: linear-gradient(90deg, #f5f3ff 0%, #ddd6fe 45%, #c4b5fd 100%);
+  background: linear-gradient(90deg, #ccfbf1 0%, #5eead4 40%, #38bdf8 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 .nav-btn {
-  color: rgba(237, 233, 254, 0.85);
+  color: rgba(204, 251, 241, 0.88);
   font-weight: 600;
   padding: 6px 14px;
   transition:
@@ -144,15 +142,15 @@ function isActive (path) {
 }
 .nav-btn:hover {
   color: #fff;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(11, 195, 171, 0.12);
 }
 .nav-btn--active {
-  color: #1e1b4b !important;
-  background: linear-gradient(135deg, #ede9fe 0%, #c4b5fd 100%) !important;
-  box-shadow: 0 8px 28px rgba(91, 33, 182, 0.35);
+  color: #133031 !important;
+  background: linear-gradient(135deg, #ccfbf1 0%, #5eead4 100%) !important;
+  box-shadow: 0 8px 28px rgba(3, 117, 204, 0.28);
 }
 .mail-icon-btn {
-  color: #ede9fe;
+  color: #a5f3fc;
 }
 
 @media (max-width: 599px) {
