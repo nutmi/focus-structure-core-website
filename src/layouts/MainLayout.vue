@@ -1,102 +1,79 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
+  <q-layout view="hHh lpR fFf" class="investor-layout">
+    <InvestorNavBar />
 
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
-    </q-header>
-
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
-      <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
-
-        <EssentialLink
-          v-for="link in linksList"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
-    </q-drawer>
-
-    <q-page-container>
-      <router-view />
+    <q-page-container class="page-container">
+      <router-view v-slot="{ Component }">
+        <transition name="fade-slide" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
     </q-page-container>
+
+    <q-btn
+      fab
+      icon="mail"
+      color="primary"
+      text-color="white"
+      class="fab-contact shadow-lg fixed-fab"
+      aria-label="Contact us"
+      @click="contact.openDialog()"
+    >
+      <q-tooltip anchor="center left" self="center right" :offset="[8, 0]">
+        Contact us
+      </q-tooltip>
+    </q-btn>
+
+    <ContactUsDialog v-model="dialogOpen" />
   </q-layout>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
+import { storeToRefs } from 'pinia'
+import InvestorNavBar from 'src/components/investor/InvestorNavBar.vue'
+import ContactUsDialog from 'src/components/investor/ContactUsDialog.vue'
+import { useContactUiStore } from 'src/stores/contact-ui'
 
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-]
-
-const leftDrawerOpen = ref(false)
-
-function toggleLeftDrawer () {
-  leftDrawerOpen.value = !leftDrawerOpen.value
-}
+const contact = useContactUiStore()
+const { dialogOpen } = storeToRefs(contact)
 </script>
+
+<style scoped>
+.investor-layout {
+  background: radial-gradient(
+      120% 60% at 50% -10%,
+      rgba(124, 58, 237, 0.35) 0%,
+      transparent 55%
+    ),
+    linear-gradient(180deg, #0f172a 0%, #0b1020 40%, #070a12 100%);
+  min-height: 100vh;
+}
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+.fab-contact {
+  box-shadow: 0 12px 40px rgba(91, 33, 182, 0.55);
+}
+.fixed-fab {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 6000;
+}
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition:
+    opacity 0.28s ease,
+    transform 0.28s ease;
+}
+.fade-slide-enter-from {
+  opacity: 0;
+  transform: translateY(10px);
+}
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+</style>
