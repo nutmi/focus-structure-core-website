@@ -29,6 +29,34 @@
       </div>
     </section>
 
+    <section
+      ref="screenshotsEl"
+      class="screenshot-showcase q-pt-xl q-mt-lg reveal-on-scroll"
+      :class="{ 'is-visible': screenshotsVisible }"
+    >
+      <div class="screenshot-copy text-center q-mb-lg">
+        <div class="text-overline pp-overline q-mb-xs">Product preview</div>
+        <h2 class="screenshot-title text-h4 text-weight-bold pp-heading q-mb-sm">
+          Research workspace, fully connected
+        </h2>
+        <p class="screenshot-caption pp-body text-body1 q-mb-none">
+          One workspace for papers, PDFs, LaTeX and research structure.
+        </p>
+      </div>
+
+      <div class="screenshot-frame">
+        <img
+          src="/screenshots/screen1.png"
+          alt="Focus Structure Tool workspace with papers, PDF viewer, LaTeX editor, and research outline"
+          class="screenshot-image"
+          width="2912"
+          height="1814"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    </section>
+
     <section ref="keyToolsEl" class="gallery-block q-pt-xl q-mt-lg column items-center">
       <div
         class="gallery-heading text-center q-mb-lg reveal-on-scroll full-width"
@@ -57,15 +85,25 @@
             :style="{ transitionDelay: keyToolsDelay(i) }"
           >
             <div class="photo-shine" aria-hidden="true" />
-            <q-img
-              :src="item.src"
-              :ratio="4 / 3"
-              class="photo-img"
-              spinner-color="primary"
-              loading="lazy"
+            <button
+              type="button"
+              class="tool-shot-trigger"
+              :aria-label="`Open ${item.title} screenshot`"
+              @click="openToolPreview(item)"
             >
-              <div class="absolute-bottom photo-gradient" />
-            </q-img>
+              <q-img
+                :src="item.src"
+                :ratio="item.ratio || 4 / 3"
+                class="photo-img tool-shot-img"
+                spinner-color="primary"
+                loading="lazy"
+              >
+                <div class="absolute-bottom photo-gradient" />
+                <div class="tool-shot-overlay row items-center justify-center">
+                  <q-icon name="open_in_full" size="22px" />
+                </div>
+              </q-img>
+            </button>
             <q-card-section class="q-pt-md">
               <div class="text-subtitle1 text-weight-medium pp-title">
                 {{ item.title }}
@@ -180,6 +218,34 @@
         </p>
       </div>
     </section>
+
+    <q-dialog v-model="toolPreviewOpen" transition-show="scale" transition-hide="fade">
+      <q-card v-if="selectedTool" class="tool-preview-card">
+        <div class="tool-preview-bar row items-center justify-between no-wrap">
+          <div class="tool-preview-copy">
+            <div class="text-overline pp-overline q-mb-xs">Screenshot preview</div>
+            <h3 class="tool-preview-title q-mb-xs">{{ selectedTool.title }}</h3>
+            <p class="tool-preview-caption q-mb-none">{{ selectedTool.caption }}</p>
+          </div>
+          <q-btn
+            round
+            flat
+            icon="close"
+            text-color="white"
+            aria-label="Close screenshot preview"
+            @click="toolPreviewOpen = false"
+          />
+        </div>
+
+        <div class="tool-preview-image-wrap">
+          <img
+            :src="selectedTool.src"
+            :alt="selectedTool.caption"
+            class="tool-preview-image"
+          />
+        </div>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -192,9 +258,13 @@ import { SITE } from 'src/constants/site'
 const $q = useQuasar()
 
 const heroEntered = ref(false)
+const screenshotsVisible = ref(false)
 const keyToolsVisible = ref(false)
 const galleryVisible = ref(false)
 const featuresVisible = ref(false)
+const selectedTool = ref(null)
+const toolPreviewOpen = ref(false)
+const screenshotsEl = ref(null)
 const keyToolsEl = ref(null)
 const galleryEl = ref(null)
 const featuresEl = ref(null)
@@ -217,24 +287,28 @@ const appFunctions = [
 
 const keyTools = [
   {
-    title: 'Structured capture',
-    caption: 'Drop notes, PDFs, and links into one frame so nothing drifts across tabs.',
-    src: 'https://picsum.photos/seed/fst-tool-a/960/720'
+    title: 'Interactive knowledge maps',
+    caption: 'Large research projects become interactive knowledge maps.',
+    src: '/screenshots/screen2.png',
+    ratio: 16 / 10
   },
   {
-    title: 'Synthesis views',
-    caption: 'Roll scattered threads into a single narrative you can defend in review.',
-    src: 'https://picsum.photos/seed/fst-tool-b/960/720'
+    title: 'AI research themes',
+    caption: 'AI automatically organizes hundreds of sections into meaningful research themes.',
+    src: '/screenshots/screen3.png',
+    ratio: 16 / 10
   },
   {
-    title: 'Traceable claims',
-    caption: 'Every takeaway keeps its breadcrumbs — faster peer review, fewer rework loops.',
-    src: 'https://picsum.photos/seed/fst-tool-c/960/720'
+    title: 'Reusable project knowledge',
+    caption: 'AI explanations, formulas and claims become reusable project knowledge.',
+    src: '/screenshots/screen4.png',
+    ratio: 16 / 10
   },
   {
-    title: 'Export-ready outputs',
-    caption: 'Push polished summaries to slides or docs without rebuilding the story by hand.',
-    src: 'https://picsum.photos/seed/fst-tool-d/960/720'
+    title: 'Side-by-side comparison',
+    caption: 'Connected fragments open side-by-side for comparison and explanation.',
+    src: '/screenshots/screen5.png',
+    ratio: 16 / 10
   }
 ]
 
@@ -262,6 +336,7 @@ const gallery = [
 ]
 
 let keyToolsObserver
+let screenshotsObserver
 let galleryObserver
 let featuresObserver
 
@@ -277,6 +352,11 @@ function featureDelay (index) {
   return `${100 + index * 140}ms`
 }
 
+function openToolPreview (item) {
+  selectedTool.value = item
+  toolPreviewOpen.value = true
+}
+
 function openFeatureVideoHint () {
   $q.notify({
     type: 'info',
@@ -289,6 +369,20 @@ onMounted(() => {
   requestAnimationFrame(() => {
     heroEntered.value = true
   })
+
+  screenshotsObserver = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          screenshotsVisible.value = true
+        }
+      }
+    },
+    { threshold: 0.12, rootMargin: '0px 0px -32px 0px' }
+  )
+  if (screenshotsEl.value) {
+    screenshotsObserver.observe(screenshotsEl.value)
+  }
 
   keyToolsObserver = new IntersectionObserver(
     (entries) => {
@@ -334,6 +428,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
+  screenshotsObserver?.disconnect()
   keyToolsObserver?.disconnect()
   galleryObserver?.disconnect()
   featuresObserver?.disconnect()
@@ -504,6 +599,69 @@ onUnmounted(() => {
   transition-delay: 0.24s;
 }
 
+.screenshot-showcase {
+  position: relative;
+  scroll-margin-top: 96px;
+}
+
+.screenshot-showcase::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 9.5rem;
+  width: min(880px, 92vw);
+  height: 220px;
+  transform: translateX(-50%);
+  border-radius: 8px;
+  background: radial-gradient(
+    60% 100% at 50% 0%,
+    rgba(11, 195, 171, 0.36) 0%,
+    rgba(3, 117, 204, 0.2) 42%,
+    transparent 72%
+  );
+  filter: blur(14px);
+  opacity: 0.9;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.screenshot-copy,
+.screenshot-frame {
+  position: relative;
+  z-index: 1;
+}
+
+.screenshot-title {
+  letter-spacing: 0;
+  line-height: 1.14;
+}
+
+.screenshot-caption.pp-body {
+  max-width: 42rem;
+}
+
+.screenshot-frame {
+  overflow: hidden;
+  border-radius: 8px;
+  padding: 0.5rem;
+  border: 1px solid rgba(94, 234, 212, 0.28);
+  background:
+    linear-gradient(135deg, rgba(94, 234, 212, 0.16), rgba(56, 189, 248, 0.08)),
+    rgba(10, 24, 28, 0.78);
+  box-shadow:
+    0 26px 80px rgba(3, 117, 204, 0.22),
+    0 0 0 1px rgba(204, 251, 241, 0.06) inset;
+}
+
+.screenshot-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  border: 1px solid rgba(204, 251, 241, 0.1);
+  box-shadow: 0 16px 52px rgba(10, 24, 28, 0.5);
+}
+
 /* Center video block horizontally; clip glow overflow */
 .video-outer {
   max-width: 920px;
@@ -641,13 +799,20 @@ onUnmounted(() => {
   border-radius: 18px;
   border-color: rgba(11, 195, 171, 0.22);
   background: rgba(26, 44, 51, 0.55);
-  transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+  transition:
+    transform 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease,
+    background 0.35s ease;
 }
 
 .photo-card.is-visible:hover {
   transform: translateY(-6px);
   border-color: rgba(94, 234, 212, 0.4);
-  box-shadow: 0 20px 50px rgba(3, 117, 204, 0.28);
+  background: rgba(26, 44, 51, 0.68);
+  box-shadow:
+    0 20px 50px rgba(3, 117, 204, 0.28),
+    0 0 0 1px rgba(94, 234, 212, 0.12) inset;
 }
 
 .photo-shine {
@@ -676,9 +841,123 @@ onUnmounted(() => {
   border-radius: 0;
 }
 
+.tool-shot-trigger {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  cursor: zoom-in;
+  text-align: inherit;
+}
+
+.tool-shot-trigger:focus-visible {
+  outline: 2px solid rgba(94, 234, 212, 0.9);
+  outline-offset: -4px;
+}
+
+.tool-shot-img {
+  transform: translateZ(0);
+}
+
+.tool-shot-overlay {
+  position: absolute;
+  inset: 0;
+  color: #ecfeff;
+  background:
+    radial-gradient(circle at 50% 44%, rgba(11, 195, 171, 0.22), transparent 32%),
+    linear-gradient(180deg, rgba(10, 24, 28, 0.04), rgba(10, 24, 28, 0.34));
+  opacity: 0;
+  transition: opacity 0.28s ease;
+}
+
+.tool-shot-overlay .q-icon {
+  width: 3.1rem;
+  height: 3.1rem;
+  border: 1px solid rgba(204, 251, 241, 0.32);
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 24, 28, 0.72);
+  box-shadow: 0 14px 34px rgba(3, 117, 204, 0.35);
+  transform: translateY(8px);
+  transition: transform 0.28s ease;
+}
+
+.photo-card.is-visible:hover .tool-shot-overlay,
+.tool-shot-trigger:focus-visible .tool-shot-overlay {
+  opacity: 1;
+}
+
+.photo-card.is-visible:hover .tool-shot-overlay .q-icon,
+.tool-shot-trigger:focus-visible .tool-shot-overlay .q-icon {
+  transform: translateY(0);
+}
+
 .photo-gradient {
   height: 40%;
   background: linear-gradient(to top, rgba(19, 48, 49, 0.9), transparent);
+}
+
+.tool-preview-card {
+  width: min(1180px, calc(100vw - 32px));
+  max-width: none;
+  max-height: calc(100vh - 32px);
+  overflow: hidden;
+  color: #cffafe;
+  border: 1px solid rgba(94, 234, 212, 0.28);
+  border-radius: 8px;
+  background:
+    linear-gradient(150deg, rgba(15, 55, 56, 0.96), rgba(8, 20, 29, 0.98)),
+    #0a181c;
+  box-shadow:
+    0 28px 90px rgba(0, 0, 0, 0.52),
+    0 0 80px rgba(3, 117, 204, 0.22);
+}
+
+.tool-preview-bar {
+  gap: 1rem;
+  padding: 1rem 1.1rem;
+  border-bottom: 1px solid rgba(94, 234, 212, 0.16);
+}
+
+.tool-preview-copy {
+  min-width: 0;
+}
+
+.tool-preview-title {
+  color: #f0fdfa;
+  font-size: clamp(1.05rem, 2vw, 1.45rem);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.tool-preview-caption {
+  color: #cffafe;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.tool-preview-image-wrap {
+  max-height: calc(100vh - 9.5rem);
+  padding: 0.55rem;
+  overflow: auto;
+  background:
+    linear-gradient(rgba(204, 251, 241, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(204, 251, 241, 0.035) 1px, transparent 1px),
+    rgba(5, 20, 28, 0.9);
+  background-size: 32px 32px;
+}
+
+.tool-preview-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  border: 1px solid rgba(204, 251, 241, 0.12);
+  box-shadow: 0 18px 58px rgba(0, 0, 0, 0.38);
 }
 
 .features-block {
@@ -746,6 +1025,42 @@ onUnmounted(() => {
   .photo-card.is-visible:hover .photo-shine {
     transform: none;
     transition: none;
+  }
+
+  .tool-shot-overlay,
+  .tool-shot-overlay .q-icon {
+    transition: none;
+  }
+}
+
+@media (max-width: 620px) {
+  .tool-shot-overlay {
+    opacity: 1;
+    background: linear-gradient(180deg, transparent 48%, rgba(10, 24, 28, 0.28));
+  }
+
+  .tool-shot-overlay .q-icon {
+    width: 2.45rem;
+    height: 2.45rem;
+    transform: none;
+  }
+
+  .tool-preview-card {
+    width: calc(100vw - 16px);
+    max-height: calc(100vh - 16px);
+  }
+
+  .tool-preview-bar {
+    align-items: flex-start;
+    padding: 0.85rem;
+  }
+
+  .tool-preview-caption {
+    font-size: 0.86rem;
+  }
+
+  .tool-preview-image-wrap {
+    max-height: calc(100vh - 8.5rem);
   }
 }
 </style>
