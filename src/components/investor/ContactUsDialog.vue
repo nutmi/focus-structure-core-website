@@ -35,6 +35,14 @@
           color="primary"
         />
         <q-input
+          v-model="surname"
+          outlined
+          dense
+          label="Surname"
+          class="cd-field"
+          color="primary"
+        />
+        <q-input
           v-model="email"
           outlined
           dense
@@ -68,9 +76,10 @@
           no-caps
           rounded
           class="cd-btn-submit"
-          label="Open email"
-          icon="mail"
-          @click="sendMail"
+          :label="hasSupabaseConfig ? 'Send message' : 'Open email'"
+          :icon="hasSupabaseConfig ? 'send' : 'mail'"
+          :loading="submitting"
+          @click="submitContact"
         />
       </q-card-actions>
     </q-card>
@@ -81,6 +90,7 @@
 import { ref } from 'vue'
 import { useQuasar } from 'quasar'
 import { SITE } from 'src/constants/site'
+import { hasSupabaseConfig, supabase } from 'src/services/supabase'
 
 defineProps({
   modelValue: { type: Boolean, required: true }
@@ -91,13 +101,35 @@ const emit = defineEmits(['update:modelValue'])
 const $q = useQuasar()
 
 const name = ref('')
+const surname = ref('')
 const email = ref('')
 const message = ref('')
+const submitting = ref(false)
+
+function resetForm () {
+  name.value = ''
+  surname.value = ''
+  email.value = ''
+  message.value = ''
+}
+
+function validateForm () {
+  if (!name.value.trim() || !email.value.trim() || !message.value.trim()) {
+    $q.notify({
+      type: 'warning',
+      message: 'Please add your name, email, and message.',
+      position: 'top'
+    })
+    return false
+  }
+
+  return true
+}
 
 function sendMail () {
   const subject = encodeURIComponent(`${SITE.projectName} — investor inquiry`)
   const body = encodeURIComponent(
-    `Name: ${name.value}\nEmail: ${email.value}\n\n${message.value}\n`
+    `Name: ${name.value}\nSurname: ${surname.value}\nEmail: ${email.value}\n\n${message.value}\n`
   )
   const mailto = `mailto:${SITE.contactEmail}?subject=${subject}&body=${body}`
   window.location.href = mailto
@@ -105,6 +137,44 @@ function sendMail () {
   $q.notify({
     type: 'positive',
     message: 'Your mail client should open shortly.',
+    position: 'top'
+  })
+}
+
+async function submitContact () {
+  if (!validateForm()) return
+
+  if (!hasSupabaseConfig || !supabase) {
+    sendMail()
+    return
+  }
+
+  submitting.value = true
+  const { error } = await supabase
+    .from('contact_messages')
+    .insert({
+      name: name.value.trim(),
+      surname: surname.value.trim() || null,
+      email: email.value.trim(),
+      message: message.value.trim()
+    })
+
+  submitting.value = false
+
+  if (error) {
+    $q.notify({
+      type: 'negative',
+      message: 'Could not send the message. Please try again.',
+      position: 'top'
+    })
+    return
+  }
+
+  resetForm()
+  emit('update:modelValue', false)
+  $q.notify({
+    type: 'positive',
+    message: 'Message sent. We will get back to you soon.',
     position: 'top'
   })
 }
